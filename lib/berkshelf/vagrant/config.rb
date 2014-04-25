@@ -91,7 +91,12 @@ module Berkshelf
       private
 
         def global_provisioners(machine)
-          machine.env.vagrantfile.config.vm.provisioners
+          vagrant_version = Gem::Version.new(::Vagrant::VERSION)
+          if vagrant_version >= Gem::Version.new("1.5")
+            machine.env.vagrantfile.config.vm.provisioners
+          else
+            machine.env.config_global.vm.provisioners
+          end
         end
     end
   end
